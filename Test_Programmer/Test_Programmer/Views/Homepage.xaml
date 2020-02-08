@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Test_WebAPI.Models"
+             mc:Ignorable="d"
+             x:Class="Test_Programmer.Views.Homepage"
+             Title="Splt Amount / Employee List"
+             Padding="20">
+    <ContentPage.BindingContext>
+        <vm:Employees></vm:Employees>
+    </ContentPage.BindingContext>
+    <ScrollView>
+        <Grid ColumnSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="100"></RowDefinition>
+                <RowDefinition Height="100"></RowDefinition>
+                <RowDefinition Height="100"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="100"></RowDefinition>
+                <RowDefinition Height="100"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Text="Split Amount" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" FontSize="15" FontAttributes="Bold"></Label>
+
+            <Label Text="Amount to split:" Grid.Column="1" Grid.Row="1" FontAttributes="Bold" Grid.ColumnSpan="2" VerticalOptions="Start"></Label>
+            <Entry Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" VerticalOptions="Start"
+                TranslationY="-15" TranslationX="30"></Entry>
+
+            <StackLayout Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="2" BackgroundColor="Blue">
+            </StackLayout>
+
+            <FlexLayout AlignItems="End" Grid.Column="0" Grid.Row="4"
+                        Grid.ColumnSpan="5" BackgroundColor="GreenYellow" JustifyContent="SpaceAround" Wrap="Wrap">
+                <Label Text="ID" FontSize="12" HorizontalTextAlignment="Center"></Label>
+                <Label Text="Name" FontSize="12" HorizontalTextAlignment="Center"></Label>
+                <Label Text="Position" FontSize="12" HorizontalTextAlignment="Center"></Label>
+                <Label Text="Profile" FontSize="12" HorizontalTextAlignment="Center"></Label>
+            </FlexLayout>
+
+            <ListView x:Name="ListData"
+                          BindingContext="{Binding Employees}"
+                          Grid.Column="0" Grid.Row="5" 
+                          Grid.RowSpan="7"
+                          Grid.ColumnSpan="5"
+                          SelectionMode="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <FlexLayout AlignItems="Start" Grid.Column="0" Grid.Row="4"
+                                        Grid.ColumnSpan="5" JustifyContent="SpaceAround" Wrap="Wrap">
+                                <Label Text="{Binding EmployeeId}" FontSize="12" FontAttributes="Bold" ></Label>
+                                <Label Text="{Binding EmployeeName}" FontSize="12" FontAttributes="Bold"  ></Label>
+                                <Label Text="{Binding PositionId}" FontSize="12" FontAttributes="Bold"  ></Label>
+                                <Label Text="{Binding ProfileId}" FontSize="12" FontAttributes="Bold" ></Label>
+                            </FlexLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </ScrollView>
+</ContentPage>
