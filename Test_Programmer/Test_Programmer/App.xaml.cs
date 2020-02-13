@@ -10,13 +10,12 @@ namespace Test_Programmer
         public App()
         {
             InitializeComponent();
-
+            
             MainPage = new MainPage();
         }
 
-        protected async override void OnStart()
+        protected override void OnStart()
         {
-            await GetData.GetEployees();
         }
 
         protected override void OnSleep()

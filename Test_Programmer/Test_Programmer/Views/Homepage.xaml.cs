@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Plugin.Iconize;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,49 +17,18 @@ namespace Test_Programmer.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Homepage : ContentPage
     {
-        public List<VirtualList> MyList;
         public Homepage()
         {
             InitializeComponent();
-            MyList = new List<VirtualList>();
+            BindingContext = new AmountToSplit();
         }
-        protected async override void OnAppearing()
-        {
-            base.OnAppearing();
-            try
-            {
-                if (GetData.Employes != null)
-                {
-                    Get();
-                }
-                else
-                {
-                    Get();
-                }
-            }
-            catch (Exception)
-            {
 
-                await GetData.GetEployees();
-                OnAppearing();
-            }
-        }
-        private void Get()
+        private void TxtAmount_Unfocused(object sender, FocusEventArgs e)
         {
-            MyList.Clear();
-            foreach (var item in GetData.Employes)
-            {
-                int idPsotion = item.PositionId.Value;
-                int idProfile = item.ProfileId.Value;
-                foreach (var itemPs in GetData.Positions.Where(x => x.PositionId == idPsotion))
-                {
-                    foreach (var itemPf in GetData.Profiles.Where(x => x.ProfileId == idProfile))
-                    {
-                        MyList.Add(new VirtualList { EmployeeId = item.EmployeeId, EmployeeName = item.EmployeeName, PositionId = itemPs.PositionName, ProfileId = itemPf.ProfileName });
-                    }
-                }
-            }
-            ListData.ItemsSource = MyList.ToList();
+            var amount = Convert.ToDouble(txtAmount.Text);
+            var split = Convert.ToDouble(txtDigitAmount.Text);
+            var res = split / amount;
+            lblresult.Text = "$" + res;
         }
     }
 }

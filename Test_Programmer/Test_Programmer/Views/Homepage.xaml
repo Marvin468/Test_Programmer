@@ -3,69 +3,140 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:Test_WebAPI.Models"
+             xmlns:vm1="clr-namespace:Test_Programmer.ViewModel"
              mc:Ignorable="d"
              x:Class="Test_Programmer.Views.Homepage"
-             Title="Splt Amount / Employee List"
-             Padding="20">
-    <ContentPage.BindingContext>
-        <vm:Employees></vm:Employees>
-    </ContentPage.BindingContext>
-    <ScrollView>
-        <Grid ColumnSpacing="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"></RowDefinition>
-                <RowDefinition Height="100"></RowDefinition>
-                <RowDefinition Height="100"></RowDefinition>
-                <RowDefinition Height="100"></RowDefinition>
-                <RowDefinition Height="30"></RowDefinition>
-                <RowDefinition Height="100"></RowDefinition>
-                <RowDefinition Height="100"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Label Text="Split Amount" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" FontSize="15" FontAttributes="Bold"></Label>
+             Title="Split Amount / Employee List">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="T_ItemOptions" Order="Secondary" Text="Opciones"></ToolbarItem>
+        <ToolbarItem x:Name="T_ItemUpdate" IconImageSource="baseline_refresh_white_18.png" Command="{Binding Update}">
+            <ToolbarItem.BindingContext>
+                <vm1:ListEmployee></vm1:ListEmployee>
+            </ToolbarItem.BindingContext>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <ScrollView VerticalScrollBarVisibility="Never"
+                        Padding="10">
+                <!--Contenedor principal-->
+                <Grid ColumnSpacing="0" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="100"></RowDefinition>
+                        <RowDefinition Height="20"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Text="Split Amount" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" FontSize="15" FontAttributes="Bold"></Label>
 
-            <Label Text="Amount to split:" Grid.Column="1" Grid.Row="1" FontAttributes="Bold" Grid.ColumnSpan="2" VerticalOptions="Start"></Label>
-            <Entry Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" VerticalOptions="Start"
-                TranslationY="-15" TranslationX="30"></Entry>
+                    <Label Text="Amount to split:" Grid.Column="1" Grid.Row="1" FontAttributes="Bold" Grid.ColumnSpan="2" VerticalOptions="Center"></Label>
+                    <Entry Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" VerticalOptions="Center" Keyboard="Numeric"
+                           TranslationX="30" Text="{Binding DigitAmount, Mode=TwoWay}" x:Name="txtDigitAmount"></Entry>
+                    <!--Process Amount to split-->
+                    <StackLayout Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="2" BackgroundColor="Blue">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"></RowDefinition>
+                                <RowDefinition Height="50"></RowDefinition>
+                                <RowDefinition Height="50"></RowDefinition>
+                                <RowDefinition Height="1"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Grid.Row="1" Text="-" TextColor="White" VerticalOptions="CenterAndExpand"
+                                   HorizontalOptions="CenterAndExpand" FontSize="30" Scale="3.0">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding MinusAmount}"></TapGestureRecognizer>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label TextColor="White" Grid.Column="3" Grid.Row="1" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
+                                   FontSize="30" Text="+" Scale="1.5">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SumAmount}"></TapGestureRecognizer>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label TextColor="White" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2" Text="{Binding ResutlAmount}"
+                                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="16" x:Name="lblresult"></Label>
+                            <Entry Grid.Column="1" Grid.Row="1" BackgroundColor="White" Grid.ColumnSpan="2" Keyboard="Numeric" x:Name="txtAmount"
+                                   HorizontalTextAlignment="Center" Text="{Binding DigitSplit, Mode=TwoWay}" Unfocused="TxtAmount_Unfocused">
+                            </Entry>
+                            <BoxView BackgroundColor="White" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" TranslationY="-10"></BoxView>
+                        </Grid>
+                    </StackLayout>
 
-            <StackLayout Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="2" BackgroundColor="Blue">
-            </StackLayout>
+                    <Label Text="Employee List" Grid.Column="0" Grid.Row="5" VerticalOptions="Start" Grid.ColumnSpan="2" FontAttributes="Bold"></Label>
+                    <!--Tabla de datos-->
+                    <StackLayout Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="5" Grid.RowSpan="7" Margin="20">
+                        <!--Encabezado-->
+                        <StackLayout Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="5" BackgroundColor="LimeGreen" Grid.RowSpan="7">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Text="ID" FontSize="16" HorizontalTextAlignment="Center" Grid.Column="0" FontAttributes="Bold" TranslationY="3" TextColor="White"></Label>
+                                <Label Text="Name" FontSize="16" HorizontalTextAlignment="Center" Grid.Column="1" FontAttributes="Bold" TranslationY="3" TextColor="White"></Label>
+                                <Label Text="Position" FontSize="16" HorizontalTextAlignment="Center" Grid.Column="2" FontAttributes="Bold" TranslationY="3" TextColor="White"></Label>
+                                <Label Text="Profile" FontSize="16" HorizontalTextAlignment="Center" Grid.Column="3" FontAttributes="Bold" TranslationY="3" TextColor="White"></Label>
+                            </Grid>
+                        </StackLayout>
 
-            <FlexLayout AlignItems="End" Grid.Column="0" Grid.Row="4"
-                        Grid.ColumnSpan="5" BackgroundColor="GreenYellow" JustifyContent="SpaceAround" Wrap="Wrap">
-                <Label Text="ID" FontSize="12" HorizontalTextAlignment="Center"></Label>
-                <Label Text="Name" FontSize="12" HorizontalTextAlignment="Center"></Label>
-                <Label Text="Position" FontSize="12" HorizontalTextAlignment="Center"></Label>
-                <Label Text="Profile" FontSize="12" HorizontalTextAlignment="Center"></Label>
-            </FlexLayout>
-
-            <ListView x:Name="ListData"
-                          BindingContext="{Binding Employees}"
-                          Grid.Column="0" Grid.Row="5" 
+                        <!--Listado de datos-->
+                        <ListView x:Name="ListData"
+                          ItemsSource="{Binding DataListEmployees,Mode=TwoWay}"
+                          Grid.Column="0" Grid.Row="2"
                           Grid.RowSpan="7"
-                          Grid.ColumnSpan="5"
-                          SelectionMode="None">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <FlexLayout AlignItems="Start" Grid.Column="0" Grid.Row="4"
-                                        Grid.ColumnSpan="5" JustifyContent="SpaceAround" Wrap="Wrap">
-                                <Label Text="{Binding EmployeeId}" FontSize="12" FontAttributes="Bold" ></Label>
-                                <Label Text="{Binding EmployeeName}" FontSize="12" FontAttributes="Bold"  ></Label>
-                                <Label Text="{Binding PositionId}" FontSize="12" FontAttributes="Bold"  ></Label>
-                                <Label Text="{Binding ProfileId}" FontSize="12" FontAttributes="Bold" ></Label>
-                            </FlexLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Grid>
-    </ScrollView>
+                          Grid.ColumnSpan="4"
+                          SelectionMode="None"
+                          SeparatorVisibility="None"                          
+                          IsRefreshing="{Binding IsRefresh}"
+                          HasUnevenRows="True">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="{Binding EmployeeId}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Column="0" TextColor="Black" FontSize="15"></Label>
+                                            <Label Text="{Binding EmployeeName}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Column="1" TextColor="Black" FontSize="15"></Label>
+                                            <Label Text="{Binding PositionId}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Column="2" TextColor="Black" FontSize="15"></Label>
+                                            <Label Text="{Binding ProfileId}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Column="3" TextColor="Black" FontSize="15"></Label>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.BindingContext>
+                                <vm1:ListEmployee></vm1:ListEmployee>
+                            </ListView.BindingContext>
+                        </ListView>
+                    </StackLayout>
+                </Grid>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>
